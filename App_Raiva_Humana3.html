@@ -3,131 +3,641 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia Antirrábico Humano</title>
+    <title>Guia Antirrábico Humano — VIEP / MS</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #eaf2f8; padding: 20px; color: #333; }
-        .container { max-width: 480px; margin: auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-        h2 { color: #1a365d; text-align: center; margin-bottom: 8px; font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
-        
-        .creditos { display: flex; flex-direction: column; align-items: center; text-align: center; font-size: 13px; color: #666; margin-bottom: 15px; gap: 4px; }
-        .creditos b { color: #1a365d; }
-        .contador { text-align: center; margin-bottom: 25px; }
-        
-        label { font-weight: bold; display: block; margin-top: 15px; margin-bottom: 5px; color: #444; font-size: 14px; }
-        select, button { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #ccd0d5; font-size: 15px; box-sizing: border-box; color: #333; }
-        select:invalid { color: #888; }
-        select:focus { outline: none; border-color: #2b6cb0; box-shadow: 0 0 0 3px rgba(43, 108, 176, 0.2); }
-        
-        button { background-color: #1a365d; color: white; border: none; font-weight: bold; margin-top: 25px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 6px rgba(26, 54, 93, 0.2); }
-        button:hover { background-color: #2a4365; transform: translateY(-1px); box-shadow: 0 6px 10px rgba(26, 54, 93, 0.3); }
-        
-        #resultado { margin-top: 25px; padding: 15px; border-radius: 8px; display: none; font-size: 15px; line-height: 1.5; border-left: 5px solid #2b6cb0; background-color: #ebf4ff; }
-        .alerta-sinan { background-color: #fff3cd; border-left: 5px solid #ffc107; padding: 12px; margin-top: 15px; border-radius: 4px; font-size: 14px; font-weight: bold; color: #856404; line-height: 1.5; }
-        .lavagem { background-color: #d4edda; border-left: 5px solid #28a745; padding: 10px; margin-bottom: 15px; border-radius: 4px; color: #155724; font-weight: bold; }
-        .calculo-soro { background-color: #f8d7da; border-left: 5px solid #dc3545; padding: 12px; margin-top: 15px; border-radius: 4px; color: #721c24; }
-        .titulacao { background-color: #e2e3e5; border-left: 5px solid #6c757d; padding: 10px; margin-top: 15px; border-radius: 4px; color: #383d41; font-weight: bold; }
-        .bloqueio { background-color: #f8d7da; border-left: 5px solid #dc3545; padding: 10px; margin-bottom: 15px; border-radius: 4px; color: #721c24; font-weight: bold; }
-        
-        .fluxo { background-color: #e0f2f1; border-left: 5px solid #00897b; padding: 15px; margin-top: 15px; border-radius: 4px; color: #004d40; font-size: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        
-        .ref { font-size: 13px; color: #555; margin-top: 12px; font-style: italic; background: #f8f9fa; padding: 8px; border-radius: 4px; border: 1px solid #ddd; }
-        .erro-msg { background-color: #ffebee; border-left: 5px solid #f44336; padding: 15px; color: #b71c1c; font-weight: bold; }
+        :root {
+            --primary-dark: #0f294a;
+            --primary: #1a365d;
+            --primary-light: #2b6cb0;
+            --accent: #0ea5e9;
+            --bg-page: #f0f5fa;
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #cbd5e1;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --radius-sm: 8px;
+            --shadow-card: 0 12px 32px -4px rgba(15, 41, 74, 0.10), 0 4px 12px -2px rgba(15, 41, 74, 0.05);
+            --shadow-soft: 0 2px 8px rgba(15, 41, 74, 0.06);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(circle at top, #e2eef8 0%, #edf3f9 45%, #e6eef6 100%);
+            min-height: 100vh;
+            padding: 28px 16px 48px;
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 620px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-card);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        /* Cabeçalho Institucional */
+        .app-header {
+            background: linear-gradient(135deg, #0b223e 0%, #1a365d 55%, #1e4e8c 100%);
+            color: #ffffff;
+            padding: 28px 28px 22px;
+            text-align: center;
+            position: relative;
+            border-bottom: 4px solid #38bdf8;
+        }
+
+        .badge-topo {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(56, 189, 248, 0.16);
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            color: #bae6fd;
+            font-size: 11.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 4px 12px;
+            border-radius: 999px;
+            margin-bottom: 12px;
+        }
+
+        .header-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .header-icon {
+            width: 38px;
+            height: 38px;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h2 {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+            margin: 0;
+        }
+
+        .creditos {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            font-size: 13.5px;
+            color: #dbeafe;
+            gap: 4px;
+            margin-top: 6px;
+        }
+
+        .creditos b {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .creditos .normativa {
+            font-size: 12.5px;
+            color: #93c5fd;
+            background: rgba(15, 23, 42, 0.28);
+            padding: 3px 12px;
+            border-radius: 6px;
+            margin-top: 4px;
+        }
+
+        .contador {
+            margin-top: 14px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .contador img {
+            border-radius: 4px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+        }
+
+        /* Corpo do Formulário */
+        .app-body {
+            padding: 26px 28px 30px;
+        }
+
+        .alerta-erro-validacao {
+            display: none;
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            border-left: 5px solid #ef4444;
+            color: #991b1b;
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 18px;
+            animation: fadeIn 0.25s ease;
+        }
+
+        .field-group {
+            margin-bottom: 18px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            transition: all 0.2s ease;
+        }
+
+        .field-group:focus-within {
+            background: #ffffff;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(43, 108, 176, 0.12);
+        }
+
+        .field-group.campo-pendente {
+            border-color: #ef4444;
+            background: #fff5f5;
+        }
+
+        label {
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            color: var(--primary-dark);
+            font-size: 14px;
+        }
+
+        .step-num {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        select {
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            font-size: 15px;
+            color: var(--text-main);
+            background-color: #ffffff;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23475569' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 6.646a.5.5 0 0 1 .708 0L8 9.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+
+        select:invalid {
+            color: #64748b;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+        }
+
+        /* Botões */
+        .actions-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+            color: #ffffff;
+            border: none;
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(26, 54, 93, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(26, 54, 93, 0.35);
+            filter: brightness(1.05);
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 14px 16px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        /* Painel de Resultado */
+        #resultado {
+            margin-top: 26px;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            display: none;
+            font-size: 15px;
+            line-height: 1.6;
+            border: 1px solid #bfdbfe;
+            border-top: 5px solid #1d4ed8;
+            background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+            box-shadow: var(--shadow-soft);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .resultado-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
+        }
+
+        .resultado-titulo-badge {
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: #1e40af;
+            background: #dbeafe;
+            padding: 4px 10px;
+            border-radius: 999px;
+        }
+
+        .btn-print {
+            background: #ffffff;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 12.5px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-print:hover {
+            background: #eff6ff;
+        }
+
+        /* Blocos de Conduta */
+        .lavagem {
+            background-color: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-left: 5px solid #10b981;
+            padding: 12px 14px;
+            margin-bottom: 16px;
+            border-radius: var(--radius-sm);
+            color: #065f46;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .conduta-principal {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .calculo-soro {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            border-left: 5px solid #dc2626;
+            padding: 14px;
+            margin-top: 14px;
+            border-radius: var(--radius-sm);
+            color: #7f1d1d;
+        }
+
+        .titulacao {
+            background-color: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-left: 5px solid #475569;
+            padding: 12px 14px;
+            margin-top: 14px;
+            border-radius: var(--radius-sm);
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .bloqueio {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            border-left: 5px solid #dc2626;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+            border-radius: var(--radius-sm);
+            color: #991b1b;
+            font-weight: 700;
+        }
+
+        .fluxo {
+            background-color: #f0fdfa;
+            border: 1px solid #99f6e4;
+            border-left: 5px solid #0d9488;
+            padding: 16px;
+            margin-top: 16px;
+            border-radius: var(--radius-sm);
+            color: #115e59;
+            font-size: 14.5px;
+        }
+
+        .alerta-sinan {
+            background-color: #fffbeb;
+            border: 1px solid #fde68a;
+            border-left: 5px solid #f59e0b;
+            padding: 14px 16px;
+            margin-top: 16px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 600;
+            color: #78350f;
+            line-height: 1.55;
+        }
+
+        .ref {
+            font-size: 12.5px;
+            color: #475569;
+            margin-top: 14px;
+            font-style: italic;
+            background: #f1f5f9;
+            padding: 9px 12px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .erro-msg {
+            background-color: #fef2f2;
+            border-left: 5px solid #ef4444;
+            padding: 15px;
+            color: #991b1b;
+            font-weight: 700;
+            border-radius: var(--radius-sm);
+        }
+
+        .app-footer {
+            text-align: center;
+            padding: 14px 20px 20px;
+            font-size: 12px;
+            color: var(--text-muted);
+            border-top: 1px solid #f1f5f9;
+            background: #fafcff;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 520px) {
+            body { padding: 12px 10px 32px; }
+            .app-header { padding: 22px 18px 18px; }
+            .app-body { padding: 18px 16px 22px; }
+            h2 { font-size: 20px; }
+            .actions-row { flex-direction: column; }
+        }
+
+        @media print {
+            body { background: #ffffff; padding: 0; }
+            .container { box-shadow: none; max-width: 100%; border: none; }
+            .actions-row, .btn-print, .contador { display: none !important; }
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Guia Antirrábico Humano</h2>
-        <div class="creditos">
-            <span>Criado por: <b>Vânia Freitas</b> (Enfermeira Sanitarista)</span>
-            <span><i>Segundo NT nº 8/2022 e NT Conjunta nº 35/2026/MS</i></span>
-        </div>
-        
-        <div class="contador">
-            <img src="https://hits.sh/guia-antirrabico-humano.netlify.app.svg?label=Acessos&color=1a365d" alt="Contador de Acessos">
-        </div>
-        
-        <label>1. Tipo de Atendimento:</label>
-        <select id="tipoAtendimento" onchange="verificarAtendimento()" required>
-            <option value="" disabled selected hidden>Selecione...</option>
-            <option value="pep">Pós-Exposição (PEP) - Acidente/Agressão</option>
-            <option value="prep">Pré-Exposição (PrEP) - Risco Ocupacional</option>
-        </select>
+        <header class="app-header">
+            <div class="badge-topo">Vigilância Epidemiológica • Apoio à Decisão Clínica</div>
+            <div class="header-title-row">
+                <span class="header-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12h6"/>
+                        <path d="M12 9v6"/>
+                    </svg>
+                </span>
+                <h2>Guia Antirrábico Humano</h2>
+            </div>
+            <div class="creditos">
+                <span>Criado por: <b>Vânia Freitas</b> (Enfermeira Sanitarista)</span>
+                <span class="normativa">Segundo NT nº 8/2022 e NT Conjunta nº 35/2026/MS</span>
+            </div>
+            <div class="contador">
+                <img src="https://hits.sh/guia-antirrabico-humano.netlify.app.svg?label=Acessos&color=0ea5e9" alt="Contador de Acessos">
+            </div>
+        </header>
 
-        <div id="divFluxoAcidente" style="display: none;">
-            <label>2. Condição Imunológica do Paciente:</label>
-            <select id="imuno">
-                <option value="" disabled selected hidden>Selecione...</option>
-                <option value="imunocompetente">Imunocompetente (Saudável)</option>
-                <option value="imunocomprometido">Imunocomprometido (Ex: HIV, oncológico, uso de corticoides crônicos)</option>
-            </select>
+        <main class="app-body">
+            <div id="alertaValidacao" class="alerta-erro-validacao"></div>
 
-            <label>3. Histórico Vacinal do Paciente:</label>
-            <select id="historico">
-                <option value="" disabled selected hidden>Selecione...</option>
-                <option value="zero_ou_uma">Nunca vacinado ou tomou apenas 01 dose anterior</option>
-                <option value="duas_ou_tres">Esquema INCOMPLETO (Tomou 2 ou 3 doses anteriormente)</option>
-                <option value="completo_menos90">Esquema COMPLETO (Há MENOS de 90 dias)</option>
-                <option value="completo_mais90">Esquema COMPLETO (Há MAIS de 90 dias)</option>
-            </select>
-
-            <label>4. Animal Agressor:</label>
-            <select id="animal" onchange="verificarAnimal()">
-                <option value="" disabled selected hidden>Selecione...</option>
-                <option value="caogato">Cão, Gato</option>
-                <option value="morcego">Morcego</option>
-                <option value="silvestre">Outros Silvestres (Sagui, Sariguê, Ratazana da Mata)</option>
-                <option value="herbivoro">Cavalo, Boi, Bezerro, Porco (Produção/Herbívoros)</option>
-                <option value="roedor">Roedores urbanos (Rato comum, Hamster, Coelho) - S/ Indicação</option>
-            </select>
-
-            <div id="divCondicao" style="display: none;">
-                <label>5. Condição do Animal (Cão/Gato):</label>
-                <select id="condicao">
-                    <option value="" disabled selected hidden>Selecione...</option>
-                    <option value="observavel">Sadio e passível de observação (Domiciliado/Comunitário)</option>
-                    <!-- AQUI FOI INSERIDA A PALAVRA "MORTO" NO CAMPO DE SELEÇÃO -->
-                    <option value="suspeito">Suspeito, Raivoso, Morto ou Desaparecido</option>
+            <div class="field-group" id="grupo1">
+                <label for="tipoAtendimento">
+                    <span class="step-num">1</span>
+                    Tipo de Atendimento:
+                </label>
+                <select id="tipoAtendimento" onchange="verificarAtendimento()" required>
+                    <option value="" disabled selected hidden>Selecione o tipo de atendimento...</option>
+                    <option value="pep">Pós-Exposição (PEP) - Acidente / Agressão</option>
+                    <option value="prep">Pré-Exposição (PrEP) - Risco Ocupacional</option>
                 </select>
             </div>
 
-            <div id="divLesao" style="display: none;">
-                <label>6. Gravidade da Lesão:</label>
-                <select id="lesao">
-                    <option value="" disabled selected hidden>Selecione...</option>
-                    <option value="leve">Leve (Superficial, tronco, membros - exceto mãos/pés)</option>
-                    <option value="grave">Grave (Cabeça, pescoço, mãos/pés, profunda, múltipla)</option>
-                </select>
+            <div id="divFluxoAcidente" style="display: none;">
+                <div class="field-group" id="grupo2">
+                    <label for="imuno">
+                        <span class="step-num">2</span>
+                        Condição Imunológica do Paciente:
+                    </label>
+                    <select id="imuno" onchange="limparErroCampo('grupo2')">
+                        <option value="" disabled selected hidden>Selecione a condição imunológica...</option>
+                        <option value="imunocompetente">Imunocompetente (Saudável)</option>
+                        <option value="imunocomprometido">Imunocomprometido (Ex: HIV, oncológico, uso de corticoides crônicos)</option>
+                    </select>
+                </div>
+
+                <div class="field-group" id="grupo3">
+                    <label for="historico">
+                        <span class="step-num">3</span>
+                        Histórico Vacinal do Paciente:
+                    </label>
+                    <select id="historico" onchange="limparErroCampo('grupo3')">
+                        <option value="" disabled selected hidden>Selecione o histórico vacinal...</option>
+                        <option value="zero_ou_uma">Nunca vacinado ou tomou apenas 01 dose anterior</option>
+                        <option value="duas_ou_tres">Esquema INCOMPLETO (Tomou 2 ou 3 doses anteriormente)</option>
+                        <option value="completo_menos90">Esquema COMPLETO (Há MENOS de 90 dias)</option>
+                        <option value="completo_mais90">Esquema COMPLETO (Há MAIS de 90 dias)</option>
+                    </select>
+                </div>
+
+                <div class="field-group" id="grupo4">
+                    <label for="animal">
+                        <span class="step-num">4</span>
+                        Animal Agressor:
+                    </label>
+                    <select id="animal" onchange="verificarAnimal()">
+                        <option value="" disabled selected hidden>Selecione a espécie agressora...</option>
+                        <option value="caogato">Cão, Gato</option>
+                        <option value="morcego">Morcego</option>
+                        <option value="silvestre">Outros Silvestres (Sagui, Sariguê, Ratazana da Mata)</option>
+                        <option value="herbivoro">Cavalo, Boi, Bezerro, Porco (Produção/Herbívoros)</option>
+                        <option value="roedor">Roedores urbanos (Rato comum, Hamster, Coelho) - S/ Indicação</option>
+                    </select>
+                </div>
+
+                <div id="divCondicao" class="field-group" style="display: none;">
+                    <label for="condicao">
+                        <span class="step-num">5</span>
+                        Condição do Animal (Cão/Gato):
+                    </label>
+                    <select id="condicao" onchange="limparErroCampo('divCondicao')">
+                        <option value="" disabled selected hidden>Selecione a condição clínica do animal...</option>
+                        <option value="observavel">Sadio e passível de observação (Domiciliado/Comunitário)</option>
+                        <option value="suspeito">Suspeito, Raivoso, Morto ou Desaparecido</option>
+                    </select>
+                </div>
+
+                <div id="divLesao" class="field-group" style="display: none;">
+                    <label for="lesao">
+                        <span class="step-num">6</span>
+                        Gravidade da Lesão:
+                    </label>
+                    <select id="lesao" onchange="limparErroCampo('divLesao')">
+                        <option value="" disabled selected hidden>Selecione a localização/profundidade...</option>
+                        <option value="leve">Leve (Superficial, tronco, membros - exceto mãos/pés)</option>
+                        <option value="grave">Grave (Cabeça, pescoço, mãos/pés, profunda, múltipla)</option>
+                    </select>
+                </div>
             </div>
-        </div>
 
-        <button onclick="gerarConduta()">Consultar Conduta</button>
+            <div class="actions-row">
+                <button type="button" class="btn-primary" onclick="gerarConduta()">
+                    🔍 Consultar Conduta
+                </button>
+                <button type="button" class="btn-secondary" onclick="limparFormulario()">
+                    Limpar
+                </button>
+            </div>
 
-        <div id="resultado"></div>
+            <div id="resultado"></div>
+        </main>
+
+        <footer class="app-footer">
+            Ferramenta de consulta rápida para profissionais de saúde • Vigilância Epidemiológica (VIEP)
+        </footer>
     </div>
 
     <script>
+        function limparErroCampo(idGrupo) {
+            var el = document.getElementById(idGrupo);
+            if (el) el.classList.remove("campo-pendente");
+            var alerta = document.getElementById("alertaValidacao");
+            if (alerta) alerta.style.display = "none";
+        }
+
+        function mostrarErroValidacao(mensagem, idGrupo) {
+            var alerta = document.getElementById("alertaValidacao");
+            alerta.innerHTML = "⚠️ " + mensagem;
+            alerta.style.display = "block";
+            if (idGrupo) {
+                var grupo = document.getElementById(idGrupo);
+                if (grupo) {
+                    grupo.classList.add("campo-pendente");
+                    grupo.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+            }
+        }
+
+        function limparFormulario() {
+            document.getElementById("tipoAtendimento").value = "";
+            document.getElementById("imuno").value = "";
+            document.getElementById("historico").value = "";
+            document.getElementById("animal").value = "";
+            document.getElementById("condicao").value = "";
+            document.getElementById("lesao").value = "";
+            document.getElementById("divFluxoAcidente").style.display = "none";
+            document.getElementById("divCondicao").style.display = "none";
+            document.getElementById("divLesao").style.display = "none";
+            document.getElementById("resultado").style.display = "none";
+            document.getElementById("alertaValidacao").style.display = "none";
+            var grupos = document.querySelectorAll(".field-group");
+            for (var i = 0; i < grupos.length; i++) {
+                grupos[i].classList.remove("campo-pendente");
+            }
+        }
+
         function verificarAtendimento() {
+            limparErroCampo("grupo1");
             var tipoAtendimento = document.getElementById("tipoAtendimento").value;
             var divFluxoAcidente = document.getElementById("divFluxoAcidente");
+            document.getElementById("resultado").style.display = "none";
 
             if (tipoAtendimento === "prep" || tipoAtendimento === "") {
                 divFluxoAcidente.style.display = "none";
             } else {
                 divFluxoAcidente.style.display = "block";
-                verificarAnimal(); 
+                verificarAnimal();
             }
         }
 
         function verificarAnimal() {
+            limparErroCampo("grupo4");
             var animal = document.getElementById("animal").value;
             var divCondicao = document.getElementById("divCondicao");
             var divLesao = document.getElementById("divLesao");
 
-            if (animal === "") {
-                divCondicao.style.display = "none";
-                divLesao.style.display = "none";
-            } else if (animal === "morcego" || animal === "silvestre" || animal === "herbivoro" || animal === "roedor") {
+            if (animal === "" || animal === "morcego" || animal === "silvestre" || animal === "herbivoro" || animal === "roedor") {
                 divCondicao.style.display = "none";
                 divLesao.style.display = "none";
             } else {
@@ -138,10 +648,13 @@
 
         function gerarConduta() {
             var resultado = document.getElementById("resultado");
-            
+
             try {
                 var tipoAtendimento = document.getElementById("tipoAtendimento").value;
-                if (!tipoAtendimento) { alert("Por favor, selecione o Tipo de Atendimento (Campo 1)."); return; }
+                if (!tipoAtendimento) {
+                    mostrarErroValidacao("Por favor, selecione o Tipo de Atendimento (Campo 1).", "grupo1");
+                    return;
+                }
 
                 var imuno = "";
                 var historico = "";
@@ -151,46 +664,69 @@
 
                 if (tipoAtendimento === "pep") {
                     imuno = document.getElementById("imuno").value;
-                    if (!imuno) { alert("Por favor, selecione a Condição Imunológica (Campo 2)."); return; }
-                    
+                    if (!imuno) {
+                        mostrarErroValidacao("Por favor, selecione a Condição Imunológica (Campo 2).", "grupo2");
+                        return;
+                    }
+
                     historico = document.getElementById("historico").value;
-                    if (!historico) { alert("Por favor, selecione o Histórico Vacinal (Campo 3)."); return; }
-                    
+                    if (!historico) {
+                        mostrarErroValidacao("Por favor, selecione o Histórico Vacinal (Campo 3).", "grupo3");
+                        return;
+                    }
+
                     animal = document.getElementById("animal").value;
-                    if (!animal) { alert("Por favor, selecione o Animal Agressor (Campo 4)."); return; }
-                    
+                    if (!animal) {
+                        mostrarErroValidacao("Por favor, selecione o Animal Agressor (Campo 4).", "grupo4");
+                        return;
+                    }
+
                     if (animal === "caogato") {
                         condicao = document.getElementById("condicao").value;
-                        if (!condicao) { alert("Por favor, selecione a Condição do Animal (Campo 5)."); return; }
-                        
+                        if (!condicao) {
+                            mostrarErroValidacao("Por favor, selecione a Condição do Animal (Campo 5).", "divCondicao");
+                            return;
+                        }
+
                         lesao = document.getElementById("lesao").value;
-                        if (!lesao) { alert("Por favor, selecione a Gravidade da Lesão (Campo 6)."); return; }
+                        if (!lesao) {
+                            mostrarErroValidacao("Por favor, selecione a Gravidade da Lesão (Campo 6).", "divLesao");
+                            return;
+                        }
                     }
                 }
 
-                var conduta = "";
+                var conduta = "<div class='resultado-header'>";
+                conduta += "<span class='resultado-titulo-badge'>Conduta Recomendada</span>";
+                conduta += "<button type='button' class='btn-print' onclick='window.print()'>🖨️ Imprimir / PDF</button>";
+                conduta += "</div>";
+
                 var indicaSoro = false;
                 var indicaVacina = false;
 
                 if (tipoAtendimento === "prep") {
-                    conduta = "<b>Profilaxia Pré-Exposição (PrEP)</b><br><br>";
+                    conduta += "<div class='conduta-principal'>";
+                    conduta += "<b>Profilaxia Pré-Exposição (PrEP)</b><br><br>";
                     conduta += "<b>Indicação:</b> Profissionais com risco ocupacional permanente.<br><br>";
                     conduta += "💉 <b>Vacina (02 doses):</b> Aplicar nos <b>Dias 0 e 7</b>.<br>";
-                    conduta += "<div class='titulacao'>🔬 <b>Titulação de Anticorpos:</b> Realizar a partir do <b>14º dia após a última dose</b> no <b>Centro de Infectologia</b>. Nível protetor > 0,5 UI/mL.</div>";
+                    conduta += "<div class='titulacao'>🔬 <b>Titulação de Anticorpos:</b> Realizar a partir do <b>14º dia após a última dose</b> no <b>Centro de Infectologia</b>. Nível protetor &gt; 0,5 UI/mL.</div>";
                     conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT nº 8/2022 (Item 2.6) e Guia de Vigilância em Saúde (6ª Ed.)</div>";
+                    conduta += "</div>";
                     indicaVacina = true;
-                } 
-                else {
-                    conduta = "<div class='lavagem'>Lavar o local com água e sabão por 15 minutos!</div>";
+                } else {
+                    conduta += "<div class='lavagem'>🧼 Lavar o local com água e sabão abundantemente por 15 minutos!</div>";
+                    conduta += "<div class='conduta-principal'>";
 
                     if (animal === "roedor") {
-                        conduta = "<div class='bloqueio'>Acidente sem risco de transmissão de Raiva</div>";
+                        conduta = "<div class='resultado-header'><span class='resultado-titulo-badge'>Conduta Recomendada</span><button type='button' class='btn-print' onclick='window.print()'>🖨️ Imprimir / PDF</button></div>";
+                        conduta += "<div class='lavagem'>🧼 Lavar o local com água e sabão abundantemente por 15 minutos!</div>";
+                        conduta += "<div class='conduta-principal'>";
+                        conduta += "<div class='bloqueio'>Acidente sem risco de transmissão de Raiva</div>";
                         conduta += "<b>Animal:</b> Roedor urbano/doméstico.<br><br>";
                         conduta += "<b>Conduta:</b> Apenas lavagem exaustiva. ❌ <b>NÃO indicar Vacina nem Soro.</b><br><br>";
                         conduta += "<i>Animais como rato de esgoto, camundongo, hamster e coelho não exigem profilaxia.</i>";
                         conduta += "<div class='ref'>📚 <b>Fundamentação:</b> Guia de Vigilância em Saúde (6ª Ed.)</div>";
-                    }
-                    else if (imuno === "imunocomprometido") {
+                    } else if (imuno === "imunocomprometido") {
                         conduta += "<b>Condição Especial: Paciente Imunocomprometido</b><br><br>";
                         conduta += "<b>Critério:</b> Indivíduo imunocomprometido deverá receber, sistematicamente, Soro e Vacina.<br><br>";
                         conduta += "💉 <b>Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>";
@@ -198,13 +734,11 @@
                         conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Itens 4.3 e 4.7.4)</div>";
                         indicaSoro = true;
                         indicaVacina = true;
-                    }
-                    else if (historico === "completo_menos90") {
+                    } else if (historico === "completo_menos90") {
                         conduta += "<b>Reexposição (Há MENOS de 90 dias do esquema completo)</b><br><br>";
                         conduta += "<b>Conduta:</b> Apenas cuidados locais. ❌ <b>NÃO indicar Vacina nem Soro.</b>";
                         conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.7.1) / Guia de Vigilância (6ª Ed.)</div>";
-                    }
-                    else if (historico === "completo_mais90") {
+                    } else if (historico === "completo_mais90") {
                         conduta += "<b>Reexposição (Há MAIS de 90 dias do esquema completo)</b><br><br>";
                         if (animal === "caogato" && condicao === "observavel" && lesao === "leve") {
                             conduta += "<b>Conduta:</b> Observar o animal por 10 dias. Se adoecer/sumir, aplicar 02 doses da vacina.<br>";
@@ -214,15 +748,13 @@
                         }
                         conduta += "❌ <b>NÃO prescrever Soro em nenhuma hipótese</b> (memória imunológica).";
                         conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Itens 4.7.1.4 e 4.7.2)</div>";
-                    }
-                    else if (historico === "duas_ou_tres") {
+                    } else if (historico === "duas_ou_tres") {
                         conduta += "<b>Esquema Anterior Incompleto (Tomou 2 ou 3 doses)</b><br><br>";
                         conduta += "<b>Conduta:</b> Completar as doses faltantes do esquema anterior <b>OU</b> aplicar o esquema de reexposição (Dias 0 e 3).<br><br>";
                         conduta += "❌ <b>NÃO prescrever Soro em nenhuma hipótese</b>, pois o paciente já possui imunidade parcial.";
                         conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.7.6) e NT nº 8/2022</div>";
                         indicaVacina = true;
-                    }
-                    else {
+                    } else {
                         if (animal === "morcego") {
                             conduta += "<b>Acidente GRAVE (Morcego)</b><br><br>";
                             conduta += "<b>Critério:</b> Exposição a morcegos, independentemente do tipo de lesão.<br><br>";
@@ -230,42 +762,35 @@
                             conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Itens 4.2.1 e 4.7.7)</div>";
                             indicaSoro = true;
                             indicaVacina = true;
-                        } 
-                        else if (animal === "silvestre") {
+                        } else if (animal === "silvestre") {
                             conduta += "<b>Acidente GRAVE (Outros Animais Silvestres)</b><br><br>";
                             conduta += "💉 <b>Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>";
                             conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.1)</div>";
                             indicaSoro = true;
                             indicaVacina = true;
-                        } 
-                        else if (animal === "herbivoro") {
+                        } else if (animal === "herbivoro") {
                             conduta += "<b>Acidente GRAVE (Animais de Produção/Herbívoros)</b><br><br>";
                             conduta += "💉 <b>Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>";
                             conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.1)</div>";
                             indicaSoro = true;
                             indicaVacina = true;
-                        } 
-                        else {
+                        } else {
                             if (condicao === "observavel" && lesao === "leve") {
                                 conduta += "<b>Acidente LEVE.</b><br><br>";
                                 conduta += "<b>Conduta:</b> Observar o animal por 10 dias. Se morrer/sumir, iniciar 04 doses da Vacina.";
                                 conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.2)</div>";
-                            } 
-                            else if (condicao === "observavel" && lesao === "grave") {
+                            } else if (condicao === "observavel" && lesao === "grave") {
                                 conduta += "<b>Acidente GRAVE (Animal Sadio e Passível de Observação).</b><br><br>";
                                 conduta += "<b>Conduta:</b> Lavagem exaustiva e observar o animal por 10 dias.<br><br>";
                                 conduta += "⚠️ <b>Atenção:</b> Acidentes causados por cães de domicílio e comunitários clinicamente saudáveis e passíveis de observação, <b>o indivíduo não necessita do uso de soro ou vacina mesmo sendo acidente grave</b>.<br><br>";
                                 conduta += "<i>Iniciar vacina e soro apenas se o animal adoecer, desaparecer ou morrer durante os 10 dias.</i>";
                                 conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.5.1)</div>";
-                            } 
-                            // TEXTOS ATUALIZADOS AQUI PARA INCLUIR A PALAVRA "MORTO" NA CONDUTA GERADA
-                            else if (condicao === "suspeito" && lesao === "leve") {
+                            } else if (condicao === "suspeito" && lesao === "leve") {
                                 conduta += "<b>Acidente LEVE (Animal Suspeito, Raivoso, Morto ou Desaparecido).</b><br><br>";
                                 conduta += "💉 <b>Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>❌ <b>Sem indicação de Soro.</b>";
                                 conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.2)</div>";
                                 indicaVacina = true;
-                            } 
-                            else if (condicao === "suspeito" && lesao === "grave") {
+                            } else if (condicao === "suspeito" && lesao === "grave") {
                                 conduta += "<b>Acidente GRAVE (Animal Suspeito, Raivoso, Morto ou Desaparecido).</b><br><br>";
                                 conduta += "💉 <b>Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>";
                                 conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.1)</div>";
@@ -275,26 +800,28 @@
                         }
                     }
 
+                    conduta += "</div>";
+
                     if (indicaSoro) {
-                        conduta += "<div class='calculo-soro'>💉 <b>Paciente deve tomar Soro</b><br><br><b>⚠️ ATENÇÃO:</b> Perguntar se paciente tomou soro alguma vez na vida. Se tomou soro, <b>NÃO TOMAR NOVAMENTE</b> (Risco de Anafilaxia - NT 35/2026, Item 4.7.1.4).</div>";
+                        conduta += "<div class='calculo-soro'>💉 <b>Paciente deve tomar Soro Antirrábico</b><br><br><b>⚠️ ATENÇÃO:</b> Perguntar se o paciente já tomou soro alguma vez na vida. Se já tomou soro, <b>NÃO TOMAR NOVAMENTE</b> (Risco de Anafilaxia — NT 35/2026, Item 4.7.1.4).</div>";
                     }
                 }
-                
+
                 if (indicaVacina || indicaSoro) {
                     conduta += "<div class='fluxo'>";
                     conduta += "<b>📍 FLUXO DE ENCAMINHAMENTO:</b><br><br>";
-                    
+
                     if (indicaSoro && indicaVacina) {
                         conduta += "⚠️ <b>Duplo Encaminhamento Necessário:</b><br><br>";
                         conduta += "<b>1. Soro Antirrábico:</b> Contrarreferenciar paciente para o <b>HGCA</b>.<br><br>";
-                        conduta += "<b>2. Vacina:</b> Contrarreferenciar paciente para a <b>Unidade de Saúde na Hora</b> mais próxima do domicílio do paciente. Entregar receita da indicação médica da profilaxia do quantitativo de doses.";
+                        conduta += "<b>2. Vacina:</b> Contrarreferenciar paciente para a <b>Unidade de Saúde na Hora</b> mais próxima do domicílio do paciente. Entregar receita da indicação médica da profilaxia com o quantitativo de doses.";
                     } else if (indicaVacina && !indicaSoro) {
-                        conduta += "💉 <b>Vacina Antirrábica:</b> Contrarreferenciar paciente para a <b>Unidade de Saúde na Hora</b> mais próxima do domicílio do paciente. Entregar receita da indicação médica da profilaxia do quantitativo de doses.";
+                        conduta += "💉 <b>Vacina Antirrábica:</b> Contrarreferenciar paciente para a <b>Unidade de Saúde na Hora</b> mais próxima do domicílio do paciente. Entregar receita da indicação médica da profilaxia com o quantitativo de doses.";
                     }
-                    
+
                     conduta += "</div>";
                 }
-                
+
                 if (tipoAtendimento !== "prep" && (!animal || animal !== "roedor")) {
                     conduta += "<div class='alerta-sinan'>";
                     conduta += "⚠️ <b>Notificação Compulsória:</b> Preencha com qualidade a Ficha do SINAN de Atendimento em qualquer acidente Antirrábico Humano.<br><br>";
@@ -304,10 +831,11 @@
                     conduta += "<b>Encaminhar Notificação para a VIEP.</b>";
                     conduta += "</div>";
                 }
-                
+
                 resultado.innerHTML = conduta;
                 resultado.style.display = "block";
-                
+                resultado.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
             } catch (erro) {
                 resultado.innerHTML = "<div class='erro-msg'>Erro no sistema: " + erro.message + " <br><br>Por favor, atualize a página e tente novamente.</div>";
                 resultado.style.display = "block";
