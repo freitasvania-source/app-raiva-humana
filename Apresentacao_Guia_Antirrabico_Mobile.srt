@@ -1,0 +1,24 @@
+1
+00:00:00,000 --> 00:00:06,000
+Conheça o Guia Antirrábico Humano: aplicativo de apoio à decisão clínica para profissionais de saúde e VIEP.
+
+2
+00:00:06,000 --> 00:00:12,000
+1. Selecione o Tipo de Atendimento (PEP ou PrEP), a Condição Imunológica e o Histórico Vacinal do paciente.
+
+3
+00:00:12,000 --> 00:00:18,000
+2. Informe o Animal Agressor, a condição clínica do animal e a gravidade da lesão, e toque em Consultar Conduta.
+
+4
+00:00:18,000 --> 00:00:24,000
+3. Veja na hora os cuidados locais, o esquema exato de doses da vacina e o alerta de segurança para o Soro.
+
+5
+00:00:24,000 --> 00:00:30,000
+4. Orienta o encaminhamento na rede (HGCA e Saúde na Hora) e o preenchimento da ficha do SINAN para a VIEP.
+
+6
+00:00:30,000 --> 00:00:36,000
+5. Alterne entre Tema Claro e Escuro no plantão e gere o PDF da conduta comprimido em apenas 1 página!
+
