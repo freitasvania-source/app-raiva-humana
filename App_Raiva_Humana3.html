@@ -1121,7 +1121,11 @@
                     conduta += "</div>";
 
                     if (indicaSoro) {
-                        conduta += "<div class='calculo-soro'>💉 <b>Paciente deve tomar Soro Antirrábico</b><br><br><b>⚠️ ATENÇÃO:</b> Perguntar se o paciente já tomou soro alguma vez na vida. Se já tomou soro, <b>NÃO TOMAR NOVAMENTE</b> (Risco de Anafilaxia — NT 35/2026, Item 4.7.1.4).</div>";
+                        if (imuno === "imunocomprometido") {
+                            conduta += "<div class='calculo-soro'>💉 <b>Paciente deve tomar Soro Antirrábico</b></div>";
+                        } else {
+                            conduta += "<div class='calculo-soro'>💉 <b>Paciente deve tomar Soro Antirrábico</b><br><br><b>⚠️ ATENÇÃO:</b> Perguntar se o paciente já tomou soro alguma vez na vida. Se já tomou soro, <b>NÃO TOMAR NOVAMENTE</b> (Risco de Anafilaxia — NT 35/2026, Item 4.7.1.4).</div>";
+                        }
                     }
                 }
 
