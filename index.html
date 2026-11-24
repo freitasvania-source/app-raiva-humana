@@ -120,7 +120,7 @@
         .app-header {
             background: linear-gradient(135deg, #0b223e 0%, #1a365d 55%, #1e4e8c 100%);
             color: #ffffff;
-            padding: 26px 28px 20px;
+            padding: 20px 32px 24px;
             text-align: center;
             position: relative;
             border-bottom: 4px solid #38bdf8;
@@ -130,9 +130,7 @@
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            gap: 8px;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
+            margin-bottom: 14px;
         }
 
         .modal-overlay {
@@ -226,26 +224,11 @@
             opacity: 0.65;
         }
 
-        .badge-topo {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(56, 189, 248, 0.16);
-            border: 1px solid rgba(56, 189, 248, 0.4);
-            color: #bae6fd;
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.7px;
-            padding: 4px 11px;
-            border-radius: 999px;
-        }
-
         .theme-toggle {
             background: rgba(255, 255, 255, 0.12);
             color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.28);
-            padding: 5px 11px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 6px 12px;
             border-radius: 999px;
             font-size: 12px;
             font-weight: 600;
@@ -253,38 +236,36 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: background 0.2s ease;
+            transition: background 0.2s ease, border-color 0.2s ease;
         }
 
         .theme-toggle:hover {
             background: rgba(255, 255, 255, 0.22);
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
         .header-title-row {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 8px;
+            margin-bottom: 14px;
         }
 
-        .header-icon {
-            width: 38px;
-            height: 38px;
-            background: rgba(255, 255, 255, 0.12);
-            border-radius: 10px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        .header-divider {
+            width: 56px;
+            height: 3px;
+            background: rgba(56, 189, 248, 0.75);
+            border-radius: 999px;
+            margin-top: 12px;
         }
 
         h2 {
             color: #ffffff;
-            font-size: 24px;
+            font-size: 25px;
             font-weight: 800;
             letter-spacing: -0.4px;
+            line-height: 1.25;
             margin: 0;
         }
 
@@ -295,8 +276,7 @@
             text-align: center;
             font-size: 13.5px;
             color: #dbeafe;
-            gap: 4px;
-            margin-top: 6px;
+            gap: 8px;
         }
 
         .creditos b {
@@ -306,15 +286,15 @@
 
         .creditos .normativa {
             font-size: 12.5px;
-            color: #93c5fd;
-            background: rgba(15, 23, 42, 0.28);
-            padding: 3px 12px;
-            border-radius: 6px;
-            margin-top: 4px;
+            color: #bae6fd;
+            background: rgba(15, 23, 42, 0.30);
+            border: 1px solid rgba(147, 197, 253, 0.22);
+            padding: 5px 14px;
+            border-radius: 999px;
         }
 
         .contador {
-            margin-top: 12px;
+            margin-top: 16px;
             display: flex;
             justify-content: center;
         }
@@ -682,23 +662,16 @@
             }
 
             .top-bar {
-                margin-bottom: 4px !important;
-                justify-content: center !important;
-            }
-
-            .badge-topo {
-                font-size: 9.5px !important;
-                padding: 2px 8px !important;
+                display: none !important;
             }
 
             .header-title-row {
-                margin-bottom: 2px !important;
-                gap: 8px !important;
+                margin-bottom: 4px !important;
             }
 
-            .header-icon {
-                width: 26px !important;
-                height: 26px !important;
+            .header-divider {
+                margin-top: 4px !important;
+                height: 2px !important;
             }
 
             h2 {
@@ -707,14 +680,12 @@
 
             .creditos {
                 font-size: 10.5px !important;
-                margin-top: 2px !important;
-                gap: 1px !important;
+                gap: 3px !important;
             }
 
             .creditos .normativa {
                 font-size: 10px !important;
-                padding: 1px 8px !important;
-                margin-top: 1px !important;
+                padding: 2px 10px !important;
             }
 
             .app-body {
@@ -851,14 +822,8 @@
                 </button>
             </div>
             <div class="header-title-row">
-                <span class="header-icon" aria-hidden="true">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                        <path d="M9 12h6"/>
-                        <path d="M12 9v6"/>
-                    </svg>
-                </span>
                 <h2>Protocolos de Profilaxia Antirrábica (MS)</h2>
+                <div class="header-divider" aria-hidden="true"></div>
             </div>
             <div class="creditos">
                 <span>Sistematização técnica: <b>Vânia Freitas</b> (Sanitarista)</span>
