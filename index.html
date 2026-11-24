@@ -815,6 +815,19 @@
                     </select>
                 </div>
 
+                <div id="divExposicaoHerbivoro" class="field-group" style="display: none;">
+                    <label for="exposicaoHerbivoro">
+                        <span class="step-num">5</span>
+                        Tipo de Exposição (Herbívoro / Animal de Produção):
+                    </label>
+                    <select id="exposicaoHerbivoro" onchange="limparErroCampo('divExposicaoHerbivoro')">
+                        <option value="" disabled selected hidden>Selecione o tipo de exposição...</option>
+                        <option value="indireto">Contato Indireto / Pele Íntegra (Toque, ordenha, alimentação, sem lesão)</option>
+                        <option value="leve">Acidente Leve (Mordedura/arranhadura superficial em tronco/membros; exceto mãos/pés)</option>
+                        <option value="grave">Acidente Grave (Mordedura profunda/múltipla, mãos/pés/cabeça/mucosas ou contato de saliva com mucosa/ferida aberta/desengasgo)</option>
+                    </select>
+                </div>
+
                 <div id="divCondicao" class="field-group" style="display: none;">
                     <label for="condicao">
                         <span class="step-num">5</span>
@@ -923,9 +936,11 @@
             document.getElementById("animal").value = "";
             document.getElementById("condicao").value = "";
             document.getElementById("lesao").value = "";
+            document.getElementById("exposicaoHerbivoro").value = "";
             document.getElementById("divFluxoAcidente").style.display = "none";
             document.getElementById("divCondicao").style.display = "none";
             document.getElementById("divLesao").style.display = "none";
+            document.getElementById("divExposicaoHerbivoro").style.display = "none";
             document.getElementById("resultado").style.display = "none";
             document.getElementById("alertaValidacao").style.display = "none";
             var grupos = document.querySelectorAll(".field-group");
@@ -953,13 +968,20 @@
             var animal = document.getElementById("animal").value;
             var divCondicao = document.getElementById("divCondicao");
             var divLesao = document.getElementById("divLesao");
+            var divExposicaoHerbivoro = document.getElementById("divExposicaoHerbivoro");
 
-            if (animal === "" || animal === "morcego" || animal === "silvestre" || animal === "herbivoro" || animal === "roedor") {
-                divCondicao.style.display = "none";
-                divLesao.style.display = "none";
-            } else {
+            if (animal === "caogato") {
                 divCondicao.style.display = "block";
                 divLesao.style.display = "block";
+                divExposicaoHerbivoro.style.display = "none";
+            } else if (animal === "herbivoro") {
+                divCondicao.style.display = "none";
+                divLesao.style.display = "none";
+                divExposicaoHerbivoro.style.display = "block";
+            } else {
+                divCondicao.style.display = "none";
+                divLesao.style.display = "none";
+                divExposicaoHerbivoro.style.display = "none";
             }
         }
 
@@ -978,6 +1000,7 @@
                 var animal = "";
                 var condicao = "";
                 var lesao = "";
+                var exposicaoHerbivoro = "";
 
                 if (tipoAtendimento === "pep") {
                     imuno = document.getElementById("imuno").value;
@@ -1008,6 +1031,12 @@
                         lesao = document.getElementById("lesao").value;
                         if (!lesao) {
                             mostrarErroValidacao("Por favor, selecione a Gravidade da Lesão (Campo 6).", "divLesao");
+                            return;
+                        }
+                    } else if (animal === "herbivoro") {
+                        exposicaoHerbivoro = document.getElementById("exposicaoHerbivoro").value;
+                        if (!exposicaoHerbivoro) {
+                            mostrarErroValidacao("Por favor, selecione o Tipo de Exposição ao Herbívoro (Campo 5).", "divExposicaoHerbivoro");
                             return;
                         }
                     }
@@ -1087,11 +1116,25 @@
                             indicaSoro = true;
                             indicaVacina = true;
                         } else if (animal === "herbivoro") {
-                            conduta += "<b>Acidente GRAVE (Animais de Produção/Herbívoros)</b><br><br>";
-                            conduta += "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>";
-                            conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.1 - Exposição a Espécies de Produção e Risco de Transmissão por Desmodus rotundus)</div>";
-                            indicaSoro = true;
-                            indicaVacina = true;
+                            if (exposicaoHerbivoro === "indireto") {
+                                conduta += "<b>Exposição a Herbívoro / Animal de Produção: Contato Indireto</b><br><br>";
+                                conduta += "<b>Tipo de Contato:</b> Contato indireto ou lambedura em pele íntegra (sem solução de continuidade).<br><br>";
+                                conduta += "<b>Conduta:</b> Apenas lavagem exaustiva com água e sabão. ❌ <b>SEM indicação de Vacina nem Soro Antirrábico.</b>";
+                                conduta += "<div class='ref'>📚 <b>Fundamentação:</b> Guia de Vigilância em Saúde (6ª Ed., Seção Raiva - Contato Indireto) e NT Conjunta nº 35/2026</div>";
+                            } else if (exposicaoHerbivoro === "leve") {
+                                conduta += "<b>Exposição a Herbívoro / Animal de Produção: Acidente LEVE</b><br><br>";
+                                conduta += "<b>Tipo de Acidente:</b> Mordedura ou arranhadura superficial em tronco ou membros (exceto mãos e pés).<br><br>";
+                                conduta += "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>❌ <b>Sem indicação de Soro.</b>";
+                                conduta += "<div class='ref'>📚 <b>Fundamentação:</b> Guia de Vigilância em Saúde (6ª Ed., Seção Raiva - Animais de Produção) e NT Conjunta nº 35/2026 (Item 4.2.2)</div>";
+                                indicaVacina = true;
+                            } else if (exposicaoHerbivoro === "grave") {
+                                conduta += "<b>Exposição a Herbívoro / Animal de Produção: Acidente GRAVE</b><br><br>";
+                                conduta += "<b>Tipo de Acidente:</b> Mordedura profunda/múltipla, mãos, pés, cabeça, mucosas ou contato de saliva com mucosa / ferimento aberto (ex.: manipulação de cavidade oral / desengasgo).<br><br>";
+                                conduta += "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>";
+                                conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.1 - Exposição a Espécies de Produção e Risco de Transmissão por Desmodus rotundus) e Guia de Vigilância em Saúde (6ª Ed.)</div>";
+                                indicaSoro = true;
+                                indicaVacina = true;
+                            }
                         } else {
                             if (condicao === "observavel" && lesao === "leve") {
                                 conduta += "<b>Acidente LEVE (Cão ou Gato Sadio e Passível de Observação).</b><br><br>";
