@@ -492,14 +492,30 @@
         }
 
         .box-secao-titulo {
-            font-size: 12.5px;
+            font-size: 13px;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.6px;
-            color: var(--primary-dark);
-            border-bottom: 1px solid var(--border-field);
-            padding-bottom: 6px;
-            margin-bottom: 10px;
+            letter-spacing: 0.7px;
+            color: #ffffff;
+            background: #1a365d;
+            padding: 7px 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+
+        [data-theme="dark"] .box-secao-titulo {
+            background: #1e40af;
+            color: #ffffff;
+        }
+
+        .fluxo .box-secao-titulo {
+            background: #0d9488;
+            color: #ffffff;
+        }
+
+        .alerta-sinan .box-secao-titulo {
+            background: #d97706;
+            color: #ffffff;
         }
 
         .badge-profilaxia {
@@ -838,7 +854,9 @@
             }
 
             .box-secao { background: #ffffff !important; color: #0f172a !important; }
-            .box-secao-titulo { font-size: 10.5px !important; color: #0f294a !important; padding-bottom: 3px !important; margin-bottom: 5px !important; }
+            .box-secao-titulo { font-size: 10.5px !important; padding: 3px 8px !important; margin-bottom: 6px !important; background: #1a365d !important; color: #ffffff !important; }
+            .fluxo .box-secao-titulo { background: #0d9488 !important; color: #ffffff !important; }
+            .alerta-sinan .box-secao-titulo { background: #d97706 !important; color: #ffffff !important; }
             .lavagem { background: #ecfdf5 !important; color: #065f46 !important; }
             .conduta-principal { background: #ffffff !important; color: #0f172a !important; }
             .calculo-soro, .bloqueio { background: #fef2f2 !important; color: #7f1d1d !important; }
@@ -1211,7 +1229,7 @@
                 var indicaVacina = false;
 
                 if (tipoAtendimento === "prep") {
-                    tipoAcidenteHtml = "<b>Profilaxia Pré-Exposição (PrEP)</b><br>Profissionais com risco ocupacional permanente de exposição ao vírus rábico.";
+                    tipoAcidenteHtml = "<b>Profilaxia Pré-Exposição (PrEP)</b><br><br><b>Profissionais com Risco Ocupacional Permanente:</b><br>• Médicos veterinários, biólogos, zootecnistas, agrônomos, auxiliares e estudantes dessas áreas;<br>• Profissionais de controle de zoonoses e equipes que atuam na captura/manejo de morcegos e animais silvestres;<br>• Profissionais de laboratório que manipulam o vírus rábico;<br>• Espeleólogos e profissionais com exposição frequente em cavernas.";
                     profilaxiaHtml = "💉 <b>Indicação de Vacina (02 doses):</b> Aplicar nos <b>Dias 0 e 7</b> (via IM ou ID).<br>";
                     profilaxiaHtml += "<div class='titulacao'>🔬 <b>Titulação de Anticorpos:</b> Realizar a partir do <b>14º dia após a última dose</b> no <b>Centro de Infectologia</b>. Nível protetor &gt; 0,5 UI/mL.</div>";
                     profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> NT nº 8/2022 (Item 2.6 - Esquema de Pré-Exposição e Controle Sorológico) e Guia de Vigilância em Saúde (6ª Ed.)</div>";
@@ -1339,7 +1357,7 @@
                 // BOX 3: FLUXO DE ENCAMINHAMENTO
                 if (indicaVacina || indicaSoro) {
                     conduta += "<div class='fluxo'>";
-                    conduta += "<div class='box-secao-titulo' style='color: inherit; border-bottom-color: currentColor;'>📍 FLUXO DE ENCAMINHAMENTO</div>";
+                    conduta += "<div class='box-secao-titulo'>📍 FLUXO DE ENCAMINHAMENTO</div>";
 
                     if (indicaSoro && indicaVacina) {
                         conduta += "⚠️ <b>Duplo Encaminhamento Necessário:</b><br><br>";
@@ -1349,13 +1367,17 @@
                         conduta += "💉 <b>Vacina Antirrábica:</b> Contrarreferenciar paciente para a <b>Unidade de Saúde na Hora</b> mais próxima do domicílio do paciente. Entregar receita da indicação médica da profilaxia com o quantitativo de doses.";
                     }
 
+                    if (tipoAtendimento === "prep") {
+                        conduta += "<br><br>🔬 <b>Titulação de Anticorpos (PrEP):</b> Após o <b>14º dia da última dose</b>, o paciente deve comparecer ao <b>Centro de Infectologia</b> para realizar a Titulação de Anticorpos.";
+                    }
+
                     conduta += "</div>";
                 }
 
                 // BOX 4: NOTIFICAÇÃO COMPULSÓRIA (inclui PrEP e todos os acidentes PEP exceto roedores urbanos)
                 if (tipoAtendimento === "prep" || animal !== "roedor") {
                     conduta += "<div class='alerta-sinan'>";
-                    conduta += "<div class='box-secao-titulo' style='color: inherit; border-bottom-color: currentColor;'>⚠️ NOTIFICAÇÃO COMPULSÓRIA</div>";
+                    conduta += "<div class='box-secao-titulo'>⚠️ NOTIFICAÇÃO COMPULSÓRIA</div>";
                     conduta += "Preencha com qualidade a Ficha do SINAN de Atendimento em qualquer acidente Antirrábico Humano (inclusive PrEP).<br><br>";
                     conduta += "<b>No Verso da Notificação:</b><br>";
                     conduta += "• Marcar se houve a indicação do Soro Antirrábico;<br>";
