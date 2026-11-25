@@ -457,22 +457,76 @@
 
         .resultado-header {
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--border-field);
-            padding-bottom: 10px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
             margin-bottom: 14px;
         }
 
         .resultado-titulo-badge {
-            font-size: 12px;
+            display: block;
+            width: 100%;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+            color: #713f12;
+            background: #fef9c3;
+            border: 1.5px solid #fde047;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+        }
+
+        .resultado-acoes {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .box-secao {
+            background: var(--conduta-bg);
+            border: 1px solid var(--border-field);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            margin-bottom: 14px;
+        }
+
+        .box-secao-titulo {
+            font-size: 12.5px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.6px;
-            color: #1e40af;
-            background: #dbeafe;
+            color: var(--primary-dark);
+            border-bottom: 1px solid var(--border-field);
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+
+        .badge-profilaxia {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 800;
             padding: 4px 10px;
-            border-radius: 999px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+
+        .badge-vacina-soro {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .badge-vacina {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+
+        .badge-sem-profilaxia {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #cbd5e1;
         }
 
         .btn-print {
@@ -749,15 +803,23 @@
             }
 
             .resultado-header {
-                padding-bottom: 5px !important;
-                margin-bottom: 7px !important;
+                margin-bottom: 6px !important;
+                gap: 0 !important;
+            }
+
+            .resultado-acoes {
+                display: none !important;
             }
 
             .resultado-titulo-badge {
-                font-size: 10px !important;
-                padding: 2px 8px !important;
+                font-size: 11.5px !important;
+                padding: 5px 10px !important;
+                background: #fef9c3 !important;
+                color: #713f12 !important;
+                border: 1px solid #fde047 !important;
             }
 
+            .box-secao,
             .lavagem,
             .conduta-principal,
             .calculo-soro,
@@ -767,14 +829,16 @@
             .alerta-sinan,
             .ref {
                 padding: 6px 10px !important;
-                margin-top: 6px !important;
-                margin-bottom: 6px !important;
+                margin-top: 5px !important;
+                margin-bottom: 5px !important;
                 font-size: 11px !important;
                 line-height: 1.28 !important;
                 page-break-inside: avoid !important;
                 break-inside: avoid !important;
             }
 
+            .box-secao { background: #ffffff !important; color: #0f172a !important; }
+            .box-secao-titulo { font-size: 10.5px !important; color: #0f294a !important; padding-bottom: 3px !important; margin-bottom: 5px !important; }
             .lavagem { background: #ecfdf5 !important; color: #065f46 !important; }
             .conduta-principal { background: #ffffff !important; color: #0f172a !important; }
             .calculo-soro, .bloqueio { background: #fef2f2 !important; color: #7f1d1d !important; }
@@ -1137,134 +1201,145 @@
                 }
 
                 var cabecalhoResultado = "<div class='resultado-header'>";
-                cabecalhoResultado += "<span class='resultado-titulo-badge'>Conduta Recomendada</span>";
-                cabecalhoResultado += "<button type='button' class='btn-print' onclick='imprimirUmaPagina()'>🖨️ Imprimir / PDF (1 Pág.)</button>";
+                cabecalhoResultado += "<div class='resultado-titulo-badge'>Conduta Recomendada</div>";
+                cabecalhoResultado += "<div class='resultado-acoes'><button type='button' class='btn-print' onclick='imprimirUmaPagina()'>🖨️ Imprimir / PDF (1 Pág.)</button></div>";
                 cabecalhoResultado += "</div>";
 
-                var conduta = cabecalhoResultado;
+                var tipoAcidenteHtml = "";
+                var profilaxiaHtml = "";
                 var indicaSoro = false;
                 var indicaVacina = false;
 
                 if (tipoAtendimento === "prep") {
-                    conduta += "<div class='conduta-principal'>";
-                    conduta += "<b>Profilaxia Pré-Exposição (PrEP)</b><br><br>";
-                    conduta += "<b>Indicação:</b> Profissionais com risco ocupacional permanente.<br><br>";
-                    conduta += "💉 <b>Indicação de Vacina (02 doses):</b> Aplicar nos <b>Dias 0 e 7</b> (via IM ou ID).<br>";
-                    conduta += "<div class='titulacao'>🔬 <b>Titulação de Anticorpos:</b> Realizar a partir do <b>14º dia após a última dose</b> no <b>Centro de Infectologia</b>. Nível protetor &gt; 0,5 UI/mL.</div>";
-                    conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT nº 8/2022 (Item 2.6 - Esquema de Pré-Exposição e Controle Sorológico) e Guia de Vigilância em Saúde (6ª Ed.)</div>";
-                    conduta += "</div>";
+                    tipoAcidenteHtml = "<b>Profilaxia Pré-Exposição (PrEP)</b><br>Profissionais com risco ocupacional permanente de exposição ao vírus rábico.";
+                    profilaxiaHtml = "💉 <b>Indicação de Vacina (02 doses):</b> Aplicar nos <b>Dias 0 e 7</b> (via IM ou ID).<br>";
+                    profilaxiaHtml += "<div class='titulacao'>🔬 <b>Titulação de Anticorpos:</b> Realizar a partir do <b>14º dia após a última dose</b> no <b>Centro de Infectologia</b>. Nível protetor &gt; 0,5 UI/mL.</div>";
+                    profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> NT nº 8/2022 (Item 2.6 - Esquema de Pré-Exposição e Controle Sorológico) e Guia de Vigilância em Saúde (6ª Ed.)</div>";
                     indicaVacina = true;
                 } else {
-                    conduta += "<div class='lavagem'>🧼 Lavar o local com água e sabão abundantemente por 15 minutos!</div>";
-                    conduta += "<div class='conduta-principal'>";
-
                     if (animal === "roedor") {
-                        conduta = cabecalhoResultado;
-                        conduta += "<div class='lavagem'>🧼 Lavar o local com água e sabão abundantemente por 15 minutos!</div>";
-                        conduta += "<div class='conduta-principal'>";
-                        conduta += "<div class='bloqueio'>Acidente sem risco de transmissão de Raiva</div>";
-                        conduta += "<b>Animal:</b> Roedor urbano/doméstico.<br><br>";
-                        conduta += "<b>Conduta:</b> Apenas lavagem exaustiva. ❌ <b>SEM indicação de Vacina nem Soro Antirrábico.</b><br><br>";
-                        conduta += "<i>Animais como rato de esgoto, camundongo, hamster e coelho não exigem profilaxia por não transmitirem raiva urbana.</i>";
-                        conduta += "<div class='ref'>📚 <b>Fundamentação:</b> Guia de Vigilância em Saúde (6ª Ed., Seção Raiva - Espécies sem Indicação de Profilaxia) e NT Conjunta nº 35/2026</div>";
+                        tipoAcidenteHtml = "<div class='bloqueio'>Acidente sem risco de transmissão de Raiva</div><b>Animal:</b> Roedor urbano/doméstico (rato de esgoto, camundongo, hamster, coelho).";
+                        profilaxiaHtml = "<b>Conduta:</b> Apenas lavagem exaustiva. ❌ <b>SEM indicação de Vacina nem Soro Antirrábico.</b><br><br>";
+                        profilaxiaHtml += "<i>Animais como rato de esgoto, camundongo, hamster e coelho não exigem profilaxia por não transmitirem raiva urbana.</i>";
+                        profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> Guia de Vigilância em Saúde (6ª Ed., Seção Raiva - Espécies sem Indicação de Profilaxia) e NT Conjunta nº 35/2026</div>";
                     } else if (imuno === "imunocomprometido") {
-                        conduta += "<b>Condição Especial: Paciente Imunocomprometido</b><br><br>";
-                        conduta += "<b>Critério:</b> Indivíduo imunocomprometido deverá receber, sistematicamente, Soro e Vacina.<br><br>";
-                        conduta += "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b> (via IM profunda).<br>";
-                        conduta += "<div class='titulacao'>🔬 <b>Titulação de Anticorpos:</b> Após o 14º dia da aplicação da última dose, deverá ser submetido a exame sorológico. Acompanhamento médico indispensável.</div>";
-                        conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.3 - Conduta em Imunocomprometidos e Item 4.7.4 - Exame Sorológico Pós-Vacinal)</div>";
+                        tipoAcidenteHtml = "<b>Condição Especial: Paciente Imunocomprometido</b><br><b>Critério:</b> Indivíduo imunocomprometido deverá receber, sistematicamente, Soro e Vacina.";
+                        profilaxiaHtml = "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b> (via IM profunda).<br>";
+                        profilaxiaHtml += "<div class='titulacao'>🔬 <b>Titulação de Anticorpos:</b> Após o 14º dia da aplicação da última dose, deverá ser submetido a exame sorológico. Acompanhamento médico indispensável.</div>";
+                        profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.3 - Conduta em Imunocomprometidos e Item 4.7.4 - Exame Sorológico Pós-Vacinal)</div>";
                         indicaSoro = true;
                         indicaVacina = true;
                     } else if (historico === "completo_menos90") {
-                        conduta += "<b>Reexposição (Há MENOS de 90 dias do esquema completo)</b><br><br>";
-                        conduta += "<b>Conduta:</b> Apenas cuidados locais. ❌ <b>SEM indicação de Vacina nem Soro Antirrábico.</b>";
-                        conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.7.1 - Reexposição em menos de 90 dias) e Guia de Vigilância em Saúde (6ª Ed.)</div>";
+                        tipoAcidenteHtml = "<b>Reexposição (Há MENOS de 90 dias do esquema completo)</b>";
+                        profilaxiaHtml = "<b>Conduta:</b> Apenas cuidados locais. ❌ <b>SEM indicação de Vacina nem Soro Antirrábico.</b>";
+                        profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.7.1 - Reexposição em menos de 90 dias) e Guia de Vigilância em Saúde (6ª Ed.)</div>";
                     } else if (historico === "completo_mais90") {
-                        conduta += "<b>Reexposição (Há MAIS de 90 dias do esquema completo)</b><br><br>";
+                        tipoAcidenteHtml = "<b>Reexposição (Há MAIS de 90 dias do esquema completo)</b>";
                         if (animal === "caogato" && condicao === "observavel" && lesao === "leve") {
-                            conduta += "<b>Conduta:</b> Observar o animal por 10 dias. ❌ <b>Inicialmente SEM indicação de Vacina.</b> Se o animal adoecer, morrer ou desaparecer, aplicar 02 doses de Vacina (Dias 0 e 3).<br>";
+                            profilaxiaHtml = "<b>Conduta:</b> Observar o animal por 10 dias. ❌ <b>Inicialmente SEM indicação de Vacina.</b> Se o animal adoecer, morrer ou desaparecer, aplicar 02 doses de Vacina (Dias 0 e 3).<br>";
                         } else {
-                            conduta += "💉 <b>Indicação de Vacina (02 doses):</b> Aplicar nos <b>Dias 0 e 3</b>.<br>";
+                            profilaxiaHtml = "💉 <b>Indicação de Vacina (02 doses):</b> Aplicar nos <b>Dias 0 e 3</b>.<br>";
                             indicaVacina = true;
                         }
-                        conduta += "❌ <b>NÃO prescrever Soro em nenhuma hipótese</b> (memória imunológica secundária).";
-                        conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.7.1.4 - Contraindicação do Soro na Reexposição e Item 4.7.2 - Esquema de Vacinação de Reexposição em 2 Doses)</div>";
+                        profilaxiaHtml += "❌ <b>NÃO prescrever Soro em nenhuma hipótese</b> (memória imunológica secundária).";
+                        profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.7.1.4 - Contraindicação do Soro na Reexposição e Item 4.7.2 - Esquema de Vacinação de Reexposição em 2 Doses)</div>";
                     } else if (historico === "duas_ou_tres") {
-                        conduta += "<b>Esquema Anterior Incompleto (Tomou 2 ou 3 doses)</b><br><br>";
-                        conduta += "💉 <b>Indicação de Vacina:</b> Completar as doses faltantes do esquema anterior <b>OU</b> aplicar o esquema de reexposição (02 doses nos Dias 0 e 3).<br><br>";
-                        conduta += "❌ <b>NÃO prescrever Soro em nenhuma hipótese</b>, pois o paciente já possui imunidade parcial prévia.";
-                        conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.7.6 - Conduta em Esquemas Incompletos) e NT nº 8/2022</div>";
+                        tipoAcidenteHtml = "<b>Esquema Anterior Incompleto (Tomou 2 ou 3 doses)</b>";
+                        profilaxiaHtml = "💉 <b>Indicação de Vacina:</b> Completar as doses faltantes do esquema anterior <b>OU</b> aplicar o esquema de reexposição (02 doses nos Dias 0 e 3).<br><br>";
+                        profilaxiaHtml += "❌ <b>NÃO prescrever Soro em nenhuma hipótese</b>, pois o paciente já possui imunidade parcial prévia.";
+                        profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.7.6 - Conduta em Esquemas Incompletos) e NT nº 8/2022</div>";
                         indicaVacina = true;
                     } else {
                         if (animal === "morcego") {
-                            conduta += "<b>Acidente GRAVE (Morcego)</b><br><br>";
-                            conduta += "<b>Critério:</b> Exposição a morcegos de qualquer espécie, independentemente do tipo ou gravidade da lesão.<br><br>";
-                            conduta += "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>";
-                            conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.1 - Acidentes Graves e Item 4.7.7 - Exposição a Quirópteros)</div>";
+                            tipoAcidenteHtml = "<b>Acidente GRAVE (Morcego)</b><br><b>Critério:</b> Exposição a morcegos de qualquer espécie, independentemente do tipo ou gravidade da lesão.";
+                            profilaxiaHtml = "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>";
+                            profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.1 - Acidentes Graves e Item 4.7.7 - Exposição a Quirópteros)</div>";
                             indicaSoro = true;
                             indicaVacina = true;
                         } else if (animal === "silvestre") {
-                            conduta += "<b>Acidente GRAVE (Outros Animais Silvestres - Sagui, Raposa, etc.)</b><br><br>";
-                            conduta += "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>";
-                            conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.1 - Conduta Imediata em Animais Silvestres Potencialmente Transmissores)</div>";
+                            tipoAcidenteHtml = "<b>Acidente GRAVE (Outros Animais Silvestres — Sagui, Sariguê, Raposa, etc.)</b>";
+                            profilaxiaHtml = "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>";
+                            profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.1 - Conduta Imediata em Animais Silvestres Potencialmente Transmissores)</div>";
                             indicaSoro = true;
                             indicaVacina = true;
                         } else if (animal === "herbivoro") {
                             if (exposicaoHerbivoro === "indireto") {
-                                conduta += "<b>Exposição a Herbívoro / Animal de Produção: Contato Indireto</b><br><br>";
-                                conduta += "<b>Tipo de Contato:</b> Contato indireto ou lambedura em pele íntegra (sem solução de continuidade).<br><br>";
-                                conduta += "<b>Conduta:</b> Apenas lavagem exaustiva com água e sabão. ❌ <b>SEM indicação de Vacina nem Soro Antirrábico.</b>";
-                                conduta += "<div class='ref'>📚 <b>Fundamentação:</b> Guia de Vigilância em Saúde (6ª Ed., Seção Raiva - Contato Indireto) e NT Conjunta nº 35/2026</div>";
+                                tipoAcidenteHtml = "<b>Exposição a Herbívoro / Animal de Produção: Contato Indireto</b><br><b>Tipo de Contato:</b> Contato indireto ou lambedura em pele íntegra (sem solução de continuidade).";
+                                profilaxiaHtml = "<b>Conduta:</b> Apenas lavagem exaustiva com água e sabão. ❌ <b>SEM indicação de Vacina nem Soro Antirrábico.</b>";
+                                profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> Guia de Vigilância em Saúde (6ª Ed., Seção Raiva - Contato Indireto) e NT Conjunta nº 35/2026</div>";
                             } else if (exposicaoHerbivoro === "leve") {
-                                conduta += "<b>Exposição a Herbívoro / Animal de Produção: Acidente LEVE</b><br><br>";
-                                conduta += "<b>Tipo de Acidente:</b> Mordedura ou arranhadura superficial em tronco ou membros (exceto mãos e pés).<br><br>";
-                                conduta += "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>❌ <b>Sem indicação de Soro.</b>";
-                                conduta += "<div class='ref'>📚 <b>Fundamentação:</b> Guia de Vigilância em Saúde (6ª Ed., Seção Raiva - Animais de Produção) e NT Conjunta nº 35/2026 (Item 4.2.2)</div>";
+                                tipoAcidenteHtml = "<b>Exposição a Herbívoro / Animal de Produção: Acidente LEVE</b><br><b>Tipo de Acidente:</b> Mordedura ou arranhadura superficial em tronco ou membros (exceto mãos e pés).";
+                                profilaxiaHtml = "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>❌ <b>Sem indicação de Soro.</b>";
+                                profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> Guia de Vigilância em Saúde (6ª Ed., Seção Raiva - Animais de Produção) e NT Conjunta nº 35/2026 (Item 4.2.2)</div>";
                                 indicaVacina = true;
                             } else if (exposicaoHerbivoro === "grave") {
-                                conduta += "<b>Exposição a Herbívoro / Animal de Produção: Acidente GRAVE</b><br><br>";
-                                conduta += "<b>Tipo de Acidente:</b> Mordedura profunda/múltipla, mãos, pés, cabeça, mucosas ou contato de saliva com mucosa / ferimento aberto (ex.: manipulação de cavidade oral / desengasgo).<br><br>";
-                                conduta += "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>";
-                                conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.1 - Exposição a Espécies de Produção e Risco de Transmissão por Desmodus rotundus) e Guia de Vigilância em Saúde (6ª Ed.)</div>";
+                                tipoAcidenteHtml = "<b>Exposição a Herbívoro / Animal de Produção: Acidente GRAVE</b><br><b>Tipo de Acidente:</b> Mordedura profunda/múltipla, mãos, pés, cabeça, mucosas ou contato de saliva com mucosa / ferimento aberto (ex.: manipulação de cavidade oral / desengasgo).";
+                                profilaxiaHtml = "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>";
+                                profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.1 - Exposição a Espécies de Produção e Risco de Transmissão por Desmodus rotundus) e Guia de Vigilância em Saúde (6ª Ed.)</div>";
                                 indicaSoro = true;
                                 indicaVacina = true;
                             }
                         } else {
                             if (condicao === "observavel" && lesao === "leve") {
-                                conduta += "<b>Acidente LEVE (Cão ou Gato Sadio e Passível de Observação).</b><br><br>";
-                                conduta += "<b>Conduta:</b> Lavagem exaustiva. ❌ <b>SEM indicação imediata de Vacina nem Soro.</b> Observar o animal por 10 dias. Se adoecer, morrer ou desaparecer, iniciar 04 doses de Vacina (Dias 0, 3, 7 e 14).";
-                                conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.2 - Conduta em Acidente Leve por Animal Observável)</div>";
+                                tipoAcidenteHtml = "<b>Acidente LEVE (Cão ou Gato Sadio e Passível de Observação)</b>";
+                                profilaxiaHtml = "<b>Conduta:</b> Lavagem exaustiva. ❌ <b>SEM indicação imediata de Vacina nem Soro.</b> Observar o animal por 10 dias. Se adoecer, morrer ou desaparecer, iniciar 04 doses de Vacina (Dias 0, 3, 7 e 14).";
+                                profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.2 - Conduta em Acidente Leve por Animal Observável)</div>";
                             } else if (condicao === "observavel" && lesao === "grave") {
-                                conduta += "<b>Acidente GRAVE (Animal Sadio e Passível de Observação).</b><br><br>";
-                                conduta += "<b>Conduta:</b> Lavagem exaustiva e observar o animal por 10 dias.<br><br>";
-                                conduta += "⚠️ <b>Atenção:</b> Acidentes causados por cães de domicílio e comunitários clinicamente saudáveis e passíveis de observação, ❌ <b>o indivíduo NÃO necessita do uso de vacina nem de soro imediatamente mesmo sendo acidente grave</b>.<br><br>";
-                                conduta += "<i>Iniciar Vacina (04 doses) e Soro apenas se o animal adoecer, desaparecer ou morrer durante o período de 10 dias de observação.</i>";
-                                conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.5.1 - Observação Clínica Exclusiva em Cães/Gatos Saudáveis em Acidente Grave)</div>";
+                                tipoAcidenteHtml = "<b>Acidente GRAVE (Cão ou Gato Sadio e Passível de Observação)</b>";
+                                profilaxiaHtml = "<b>Conduta:</b> Lavagem exaustiva e observar o animal por 10 dias.<br><br>";
+                                profilaxiaHtml += "⚠️ <b>Atenção:</b> Acidentes causados por cães de domicílio e comunitários clinicamente saudáveis e passíveis de observação, ❌ <b>o indivíduo NÃO necessita do uso de vacina nem de soro imediatamente mesmo sendo acidente grave</b>.<br><br>";
+                                profilaxiaHtml += "<i>Iniciar Vacina (04 doses) e Soro apenas se o animal adoecer, desaparecer ou morrer durante o período de 10 dias de observação.</i>";
+                                profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.5.1 - Observação Clínica Exclusiva em Cães/Gatos Saudáveis em Acidente Grave)</div>";
                             } else if (condicao === "suspeito" && lesao === "leve") {
-                                conduta += "<b>Acidente LEVE (Animal Suspeito, Raivoso, Morto ou Desaparecido).</b><br><br>";
-                                conduta += "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>❌ <b>Sem indicação de Soro.</b>";
-                                conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.2 - Acidente Leve por Animal Não Observável ou Suspeito)</div>";
+                                tipoAcidenteHtml = "<b>Acidente LEVE (Cão ou Gato Suspeito, Raivoso, Morto ou Desaparecido)</b>";
+                                profilaxiaHtml = "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>❌ <b>Sem indicação de Soro.</b>";
+                                profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.2 - Acidente Leve por Animal Não Observável ou Suspeito)</div>";
                                 indicaVacina = true;
                             } else if (condicao === "suspeito" && lesao === "grave") {
-                                conduta += "<b>Acidente GRAVE (Animal Suspeito, Raivoso, Morto ou Desaparecido).</b><br><br>";
-                                conduta += "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>";
-                                conduta += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.1 - Acidente Grave por Animal Não Observável ou Suspeito: Vacina e Soro)</div>";
+                                tipoAcidenteHtml = "<b>Acidente GRAVE (Cão ou Gato Suspeito, Raivoso, Morto ou Desaparecido)</b>";
+                                profilaxiaHtml = "💉 <b>Indicação de Vacina (04 doses):</b> Aplicar nos <b>Dias 0, 3, 7 e 14</b>.<br>";
+                                profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.2.1 - Acidente Grave por Animal Não Observável ou Suspeito: Vacina e Soro)</div>";
                                 indicaSoro = true;
                                 indicaVacina = true;
                             }
                         }
                     }
 
-                    conduta += "</div>";
-
                     if (indicaSoro) {
-                        conduta += "<div class='calculo-soro'>💉 <b>Paciente deve tomar Soro Antirrábico</b><br><br><b>⚠️ ATENÇÃO:</b> Perguntar se o paciente já tomou soro alguma vez na vida. Se já tomou soro, <b>NÃO TOMAR NOVAMENTE</b> (Risco de Anafilaxia — NT 35/2026, Item 4.7.1.4). Com EXCEÇÃO para Imunocomprometido (NT 35/2026, Item 4.2.2).<div class='ref' style='margin-top:6px;'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.3 / 4.4 - Indicação e Posologia do Soro e Item 4.7.1.4 - Contraindicação de Reaplicação do Soro)</div></div>";
+                        profilaxiaHtml += "<div class='calculo-soro'>💉 <b>Paciente deve tomar Soro Antirrábico</b><br><br><b>⚠️ ATENÇÃO:</b> Perguntar se o paciente já tomou soro alguma vez na vida. Se já tomou soro, <b>NÃO TOMAR NOVAMENTE</b> (Risco de Anafilaxia — NT 35/2026, Item 4.7.1.4). Com EXCEÇÃO para Imunocomprometido (NT 35/2026, Item 4.2.2).<div class='ref' style='margin-top:6px;'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.3 / 4.4 - Indicação e Posologia do Soro e Item 4.7.1.4 - Contraindicação de Reaplicação do Soro)</div></div>";
                     }
                 }
 
+                // Montagem final dividida nos 4 boxes estruturados
+                var conduta = cabecalhoResultado;
+
+                if (tipoAtendimento !== "prep") {
+                    conduta += "<div class='lavagem'>🧼 Lavar o local com água e sabão abundantemente por 15 minutos!</div>";
+                }
+
+                // BOX 1: TIPO DE ACIDENTE
+                conduta += "<div class='box-secao'>";
+                conduta += "<div class='box-secao-titulo'>TIPO DE ACIDENTE</div>";
+                conduta += tipoAcidenteHtml;
+                conduta += "</div>";
+
+                // BOX 2: PROFILAXIA INDICADA
+                var resumoProfilaxiaBadge = "<span class='badge-profilaxia badge-sem-profilaxia'>Sem Indicação de Vacina nem Soro</span><br>";
+                if (indicaVacina && indicaSoro) {
+                    resumoProfilaxiaBadge = "<span class='badge-profilaxia badge-vacina-soro'>Vacina + Soro Antirrábico</span><br>";
+                } else if (indicaVacina) {
+                    resumoProfilaxiaBadge = "<span class='badge-profilaxia badge-vacina'>Vacina Antirrábica</span><br>";
+                }
+                conduta += "<div class='box-secao'>";
+                conduta += "<div class='box-secao-titulo'>PROFILAXIA INDICADA</div>";
+                conduta += resumoProfilaxiaBadge;
+                conduta += profilaxiaHtml;
+                conduta += "</div>";
+
+                // BOX 3: FLUXO DE ENCAMINHAMENTO
                 if (indicaVacina || indicaSoro) {
                     conduta += "<div class='fluxo'>";
-                    conduta += "<b>📍 FLUXO DE ENCAMINHAMENTO:</b><br><br>";
+                    conduta += "<div class='box-secao-titulo' style='color: inherit; border-bottom-color: currentColor;'>📍 FLUXO DE ENCAMINHAMENTO</div>";
 
                     if (indicaSoro && indicaVacina) {
                         conduta += "⚠️ <b>Duplo Encaminhamento Necessário:</b><br><br>";
@@ -1277,9 +1352,11 @@
                     conduta += "</div>";
                 }
 
-                if (tipoAtendimento !== "prep" && (!animal || animal !== "roedor")) {
+                // BOX 4: NOTIFICAÇÃO COMPULSÓRIA (inclui PrEP e todos os acidentes PEP exceto roedores urbanos)
+                if (tipoAtendimento === "prep" || animal !== "roedor") {
                     conduta += "<div class='alerta-sinan'>";
-                    conduta += "⚠️ <b>Notificação Compulsória:</b> Preencha com qualidade a Ficha do SINAN de Atendimento em qualquer acidente Antirrábico Humano.<br><br>";
+                    conduta += "<div class='box-secao-titulo' style='color: inherit; border-bottom-color: currentColor;'>⚠️ NOTIFICAÇÃO COMPULSÓRIA</div>";
+                    conduta += "Preencha com qualidade a Ficha do SINAN de Atendimento em qualquer acidente Antirrábico Humano (inclusive PrEP).<br><br>";
                     conduta += "<b>No Verso da Notificação:</b><br>";
                     conduta += "• Marcar se houve a indicação do Soro Antirrábico;<br>";
                     conduta += "• Descrever no campo observações o ocorrido com o paciente e qual foi a conduta adotada pelo médico.<br><br>";
