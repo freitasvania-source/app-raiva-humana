@@ -518,6 +518,35 @@
             color: #ffffff;
         }
 
+        .box-unidades {
+            background: var(--conduta-bg);
+            border: 1px solid var(--res-border);
+            border-left: 5px solid #2563eb;
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            margin-top: 14px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .box-unidades .box-secao-titulo {
+            background: #2563eb;
+            color: #ffffff;
+        }
+
+        .unidades-lista {
+            margin: 6px 0 12px 18px;
+            padding: 0;
+        }
+
+        .unidades-lista li {
+            margin-bottom: 5px;
+        }
+
+        .unidades-lista:last-child {
+            margin-bottom: 0;
+        }
+
         .badge-profilaxia {
             display: inline-block;
             font-size: 13px;
@@ -836,6 +865,7 @@
             }
 
             .box-secao,
+            .box-unidades,
             .lavagem,
             .conduta-principal,
             .calculo-soro,
@@ -853,10 +883,13 @@
                 break-inside: avoid !important;
             }
 
-            .box-secao { background: #ffffff !important; color: #0f172a !important; }
+            .box-secao, .box-unidades { background: #ffffff !important; color: #0f172a !important; }
             .box-secao-titulo { font-size: 10.5px !important; padding: 3px 8px !important; margin-bottom: 6px !important; background: #1a365d !important; color: #ffffff !important; }
             .fluxo .box-secao-titulo { background: #0d9488 !important; color: #ffffff !important; }
             .alerta-sinan .box-secao-titulo { background: #d97706 !important; color: #ffffff !important; }
+            .box-unidades .box-secao-titulo { background: #2563eb !important; color: #ffffff !important; }
+            .unidades-lista { margin: 3px 0 6px 16px !important; }
+            .unidades-lista li { margin-bottom: 2px !important; font-size: 10px !important; }
             .lavagem { background: #ecfdf5 !important; color: #065f46 !important; }
             .conduta-principal { background: #ffffff !important; color: #0f172a !important; }
             .calculo-soro, .bloqueio { background: #fef2f2 !important; color: #7f1d1d !important; }
@@ -1398,6 +1431,35 @@
                     conduta += "• Marcar se houve a indicação do Soro Antirrábico;<br>";
                     conduta += "• Descrever no campo observações o ocorrido com o paciente e qual foi a conduta adotada pelo médico.<br><br>";
                     conduta += "<b>Encaminhar Notificação para a VIEP.</b>";
+                    conduta += "</div>";
+                }
+
+                // BOX 5: UNIDADES DE REFERÊNCIA DE VACINAÇÃO (exibido quando houver indicação de vacina)
+                if (indicaVacina) {
+                    conduta += "<div class='box-unidades'>";
+                    conduta += "<div class='box-secao-titulo'>UNIDADES DE REFERÊNCIA DE VACINAÇÃO ANTIRRÁBICA HUMANA</div>";
+                    conduta += "<b>Atendimento de segunda a sexta-feira</b><br><br>";
+                    conduta += "<b>📍 SEDE (Unidades Saúde na Hora):</b>";
+                    conduta += "<ul class='unidades-lista'>";
+                    conduta += "<li>Queimadinha I, II e III Programa Saúde na Hora: Rua Pernambuco, s/n - Bairro Queimadinha;</li>";
+                    conduta += "<li>USF - Rua Nova II, III e Barroquinha: Rua Juvêncio Erudilho, nº 35 - Bairro Rua Nova;</li>";
+                    conduta += "<li>USF - CAMPO LIMPO I, V e VI: Rua Hosita Serafim, s/n - Bairro Campo Limpo;</li>";
+                    conduta += "<li>George 3, 4 e Campo Limpo 4: Rua Mirandópolis, nº 130 - Bairro Campo Limpo;</li>";
+                    conduta += "<li>Posto de Saúde da Família - Liberdade I, II e III: Rua El Salvador, s/n - Bairro Feira VII;</li>";
+                    conduta += "<li>Unidade de Saúde do Parque Ipê I, II e III: Rua Ilha do Retiro, s/n - Bairro Parque Ipê;</li>";
+                    conduta += "<li>USF Videiras I, II e III Programa Saúde na Hora: Av. Iguatemi, s/n - Bairro Mangabeira;</li>";
+                    conduta += "</ul>";
+                    conduta += "<b>📍 DISTRITOS - Unidade de Saúde da Família:</b>";
+                    conduta += "<ul class='unidades-lista'>";
+                    conduta += "<li>Jaíba</li>";
+                    conduta += "<li>Jaguara 1, 2</li>";
+                    conduta += "<li>Bonfim de Feira</li>";
+                    conduta += "<li>Ipuaçu</li>";
+                    conduta += "<li>Humildes 2</li>";
+                    conduta += "<li>Tiquaruçu</li>";
+                    conduta += "<li>Matinha</li>";
+                    conduta += "<li>São José 1, 2</li>";
+                    conduta += "</ul>";
                     conduta += "</div>";
                 }
 
