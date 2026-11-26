@@ -547,6 +547,42 @@
             margin-bottom: 0;
         }
 
+        .box-links {
+            background: var(--conduta-bg);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid #475569;
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            margin-top: 14px;
+            font-size: 13.5px;
+            line-height: 1.5;
+        }
+
+        .box-links .box-secao-titulo {
+            background: #475569;
+            color: #ffffff;
+        }
+
+        .links-lista {
+            margin: 6px 0 10px 18px;
+            padding: 0;
+        }
+
+        .links-lista li {
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .links-lista a {
+            color: var(--primary-light);
+            font-weight: 600;
+            text-decoration: underline;
+        }
+
+        .links-lista a:hover {
+            opacity: 0.85;
+        }
+
         .badge-profilaxia {
             display: inline-block;
             font-size: 13px;
@@ -866,6 +902,7 @@
 
             .box-secao,
             .box-unidades,
+            .box-links,
             .lavagem,
             .conduta-principal,
             .calculo-soro,
@@ -883,13 +920,14 @@
                 break-inside: avoid !important;
             }
 
-            .box-secao, .box-unidades { background: #ffffff !important; color: #0f172a !important; }
+            .box-secao, .box-unidades, .box-links { background: #ffffff !important; color: #0f172a !important; }
             .box-secao-titulo { font-size: 10.5px !important; padding: 3px 8px !important; margin-bottom: 6px !important; background: #1a365d !important; color: #ffffff !important; }
             .fluxo .box-secao-titulo { background: #0d9488 !important; color: #ffffff !important; }
             .alerta-sinan .box-secao-titulo { background: #d97706 !important; color: #ffffff !important; }
             .box-unidades .box-secao-titulo { background: #2563eb !important; color: #ffffff !important; }
-            .unidades-lista { margin: 3px 0 6px 16px !important; }
-            .unidades-lista li { margin-bottom: 2px !important; font-size: 10px !important; }
+            .box-links .box-secao-titulo { background: #475569 !important; color: #ffffff !important; }
+            .unidades-lista, .links-lista { margin: 3px 0 6px 16px !important; }
+            .unidades-lista li, .links-lista li { margin-bottom: 2px !important; font-size: 9.5px !important; }
             .lavagem { background: #ecfdf5 !important; color: #065f46 !important; }
             .conduta-principal { background: #ffffff !important; color: #0f172a !important; }
             .calculo-soro, .bloqueio { background: #fef2f2 !important; color: #7f1d1d !important; }
@@ -942,7 +980,7 @@
             </div>
             <div class="creditos">
                 <span>Sistematização técnica: <b>Vânia Freitas</b> (Sanitarista)</span>
-                <span class="normativa">Segundo NT nº 8/2022 e NT Conjunta nº 35/2026/MS</span>
+                <span class="normativa">Segundo NT n.º 8/2022 - NT Conjunta n.º 35/2026 e NT nº 134/2022-CGZV/DEIDT/SVS/MS</span>
             </div>
             <div class="contador">
                 <img src="https://hits.sh/github.com/freitasvania-source/app-raiva-humana/acessos-v2.svg?label=Acessos&color=0ea5e9" alt="Contador de Acessos">
@@ -1270,11 +1308,11 @@
                     indicaVacina = true;
                 } else {
                     if (animal === "roedor") {
-                        tipoAcidenteHtml = "<div class='bloqueio'>Acidente sem risco de transmissão de Raiva</div><b>Animal:</b> Roedor urbano/doméstico (rato de esgoto, camundongo, hamster, coelho).";
-                        tipoAcidenteHtml += "<div class='ref'>📚 <b>Fundamentação:</b> Guia de Vigilância em Saúde (6ª Ed., Seção Raiva - Classificação de Animais de Baixo Risco / Roedores Urbanos e Lagomorfos)</div>";
+                        tipoAcidenteHtml = "<div class='bloqueio'>Acidente com baixo risco para a transmissão da raiva</div><b>Animal:</b> Roedor urbano/doméstico (rato de esgoto, camundongo, hamster, coelho).";
+                        tipoAcidenteHtml += "<div class='ref'>📚 <b>Fundamentação:</b> Guia de Vigilância em Saúde (6ª Ed., Seção Raiva - Classificação de Animais de Baixo Risco / Roedores Urbanos e Lagomorfos) e NT nº 134/2022-CGZV/DEIDT/SVS/MS</div>";
                         profilaxiaHtml = "<b>Conduta:</b> Apenas lavagem exaustiva. ❌ <b>SEM indicação de Vacina nem Soro Antirrábico.</b><br><br>";
-                        profilaxiaHtml += "<i>Animais como rato de esgoto, camundongo, hamster e coelho não exigem profilaxia por não transmitirem raiva urbana.</i>";
-                        profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> Guia de Vigilância em Saúde (6ª Ed., Seção Raiva - Espécies sem Indicação de Profilaxia) e NT Conjunta nº 35/2026</div>";
+                        profilaxiaHtml += "<i>Animais como rato de esgoto, camundongo, hamster e coelho não exigem profilaxia por apresentarem baixo risco para transmissão da raiva urbana.</i>";
+                        profilaxiaHtml += "<div class='ref'>📚 <b>Fundamentação:</b> Guia de Vigilância em Saúde (6ª Ed., Seção Raiva - Espécies sem Indicação de Profilaxia), NT nº 134/2022-CGZV/DEIDT/SVS/MS e NT Conjunta nº 35/2026</div>";
                     } else if (imuno === "imunocomprometido") {
                         tipoAcidenteHtml = "<b>Condição Especial: Paciente Imunocomprometido</b><br><b>Critério:</b> Indivíduo imunocomprometido (HIV, oncológico, transplantado ou uso crônico de imunossupressores/corticoides) exposto ao risco rábico.";
                         tipoAcidenteHtml += "<div class='ref'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.3 - Definição e Critério de Risco em Pacientes Imunocomprometidos)</div>";
@@ -1372,7 +1410,7 @@
                     }
 
                     if (indicaSoro) {
-                        profilaxiaHtml += "<div class='calculo-soro'>💉 <b>Paciente deve tomar Soro Antirrábico</b><br><br><b>⚠️ ATENÇÃO:</b> Perguntar se o paciente já tomou soro alguma vez na vida. Se já tomou soro, <b>NÃO TOMAR NOVAMENTE</b> (Risco de Anafilaxia — NT 35/2026, Item 4.7.1.4). Com EXCEÇÃO para Imunocomprometido (NT 35/2026, Item 4.2.2).<div class='ref' style='margin-top:6px;'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.3 / 4.4 - Indicação e Posologia do Soro e Item 4.7.1.4 - Contraindicação de Reaplicação do Soro)</div></div>";
+                        profilaxiaHtml += "<div class='calculo-soro'>💉 <b>Paciente deve tomar Soro Antirrábico</b><br><br><b>⚠️ ATENÇÃO:</b> Perguntar se o paciente já tomou soro alguma vez na vida. Se já tomou soro, <b>NÃO TOMAR NOVAMENTE</b> (Risco de Anafilaxia — NT 35/2026, Item 4.7.1.4). Com EXCEÇÃO para Imunocomprometido (NT 35/2026, Item 4.2.2).<div class='ref' style='margin-top:6px;'>📚 <b>Fundamentação:</b> NT Conjunta nº 35/2026 (Item 4.3 / 4.4 - Indicação e Posologia do Soro e Item 4.7.1.4 - Contraindicação de Reaplicação do Soro) e NT nº 134/2022-CGZV/DEIDT/SVS/MS (Uso Racional de Soro/IGHAR)</div></div>";
                     }
                 }
 
@@ -1462,6 +1500,21 @@
                     conduta += "</ul>";
                     conduta += "</div>";
                 }
+
+                // BOX 6: LINKS IMPORTANTES (sempre exibido por último em toda conduta)
+                conduta += "<div class='box-links'>";
+                conduta += "<div class='box-secao-titulo'>🔗 LINKS IMPORTANTES</div>";
+                conduta += "<b>NOTIFICAÇÃO ANTIRRÁBICA:</b>";
+                conduta += "<ul class='links-lista'>";
+                conduta += "<li><a href='https://portalsinan.saude.gov.br/images/documentos/Agravos/Atendimento%20Anti-rabico/anti_rabico_v5.pdf' target='_blank' rel='noopener noreferrer'>Ficha de Investigação — Atendimento Antirrábico Humano (SINAN v5 - PDF)</a></li>";
+                conduta += "</ul>";
+                conduta += "<b>NOTAS TÉCNICAS:</b>";
+                conduta += "<ul class='links-lista'>";
+                conduta += "<li><a href='https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/notas-tecnicas/2022/nota-tecnica-no-134-2022-cgzv-deidt-svs-ms' target='_blank' rel='noopener noreferrer'>NOTA TÉCNICA Nº 134/2022-CGZV/DEIDT/SVS/MS</a></li>";
+                conduta += "<li><a href='https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/notas-tecnicas/2022/copy_of_nota-tecnica-n-8_2022-cgzv_deidt_svs_ms.pdf' target='_blank' rel='noopener noreferrer'>NOTA TÉCNICA Nº 8/2022-CGZV/DEIDT/SVS/MS</a></li>";
+                conduta += "<li><a href='https://www.gov.br/saude/pt-br/centrais-de-conteudo/publicacoes/notas-tecnicas/2026/nota-tecnica-conjunta-no-35-2026-cggi-cgici-dpni-cgzha-dedt-svsa-ms-e-cgzha-dedt-svsa-ms.pdf' target='_blank' rel='noopener noreferrer'>NOTA TÉCNICA CONJUNTA Nº 35/2026 - CGGI/CGICI/DPNI/CGZHA/DEDT/SVSA/MS E CGZHA/DEDT/SVSA/MS</a></li>";
+                conduta += "</ul>";
+                conduta += "</div>";
 
                 resultado.innerHTML = conduta;
                 resultado.style.display = "block";
